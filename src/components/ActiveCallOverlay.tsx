@@ -62,17 +62,24 @@ export default function ActiveCallOverlay({
   useEffect(() => {
     if (localVideoRef.current && localStream) {
       localVideoRef.current.srcObject = localStream;
+      localVideoRef.current.play().catch(() => {});
     }
   }, [localStream]);
 
-  // Attach Remote Stream
+  // Attach Remote Stream & Trigger Playback
   useEffect(() => {
     if (remoteStream) {
       if (remoteVideoRef.current) {
         remoteVideoRef.current.srcObject = remoteStream;
+        remoteVideoRef.current.play().catch((err) => {
+          console.warn("Remote video autoPlay notice:", err);
+        });
       }
       if (remoteAudioRef.current) {
         remoteAudioRef.current.srcObject = remoteStream;
+        remoteAudioRef.current.play().catch((err) => {
+          console.warn("Remote audio autoPlay notice:", err);
+        });
       }
     }
   }, [remoteStream]);

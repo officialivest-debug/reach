@@ -334,62 +334,64 @@ export default function ProfilePage() {
         </div>
 
         {/* Avatar + name row */}
-        <div className="flex items-end gap-4 -mt-10 px-2">
-          <div className="relative shrink-0">
-            <div className="w-20 h-20 rounded-full border-4 border-[#0F0F1A] bg-[#C9A84C20] flex items-center justify-center overflow-hidden relative">
-              {(avatarPreview || profile?.avatar_url) ? (
-                <Image
-                  src={avatarPreview || profile?.avatar_url || ""}
-                  alt="Avatar"
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
-              ) : (
-                <span className="text-2xl font-medium text-[#C9A84C]">
-                  {profile?.full_name?.[0] || "?"}
-                </span>
-              )}
-            </div>
-            {editing && (
-              <label
-                title="Upload real face portrait (no cartoons/memes)"
-                className="absolute bottom-0 right-0 w-7 h-7 bg-[#C9A84C] rounded-full flex items-center justify-center cursor-pointer hover:opacity-90 transition shadow-md"
-              >
-                <Camera size={14} className="text-[#1A1A2E]" />
-                <input type="file" accept="image/*" className="hidden"
-                  onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0], "avatar")} />
-              </label>
-            )}
-          </div>
-          <div className="flex-1 pb-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-[#F5F3ED] text-lg font-medium">
-                {profile?.full_name}
-              </h1>
-              <VerifiedBadge tier={profile?.subscription_tier} isVerified={profile?.is_verified} isScam={profile?.is_scam} isBanned={profile?.is_banned} size={18} />
-            </div>
-            <div className="flex items-center gap-2 text-xs text-[#5C5A70]">
-              <span>@{profile?.username}</span>
-              <span>·</span>
-              <span className="capitalize">{profile?.role}</span>
-              {profile?.country && (
-                <>
-                  <span>·</span>
-                  <span className="flex items-center gap-1">
-                    <MapPin size={10} />{profile.country}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 -mt-10 px-2">
+          <div className="flex items-end gap-3 sm:gap-4 min-w-0 flex-1">
+            <div className="relative shrink-0">
+              <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-full border-4 border-[#0F0F1A] bg-[#C9A84C20] flex items-center justify-center overflow-hidden relative shadow-lg">
+                {(avatarPreview || profile?.avatar_url) ? (
+                  <Image
+                    src={avatarPreview || profile?.avatar_url || ""}
+                    alt="Avatar"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                ) : (
+                  <span className="text-xl sm:text-2xl font-medium text-[#C9A84C]">
+                    {profile?.full_name?.[0] || "?"}
                   </span>
-                </>
+                )}
+              </div>
+              {editing && (
+                <label
+                  title="Upload real face portrait (no cartoons/memes)"
+                  className="absolute bottom-0 right-0 w-7 h-7 bg-[#C9A84C] rounded-full flex items-center justify-center cursor-pointer hover:opacity-90 transition shadow-md"
+                >
+                  <Camera size={14} className="text-[#1A1A2E]" />
+                  <input type="file" accept="image/*" className="hidden"
+                    onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0], "avatar")} />
+                </label>
               )}
+            </div>
+            <div className="flex-1 min-w-0 pb-1">
+              <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                <h1 className="text-[#F5F3ED] text-base sm:text-lg font-medium truncate">
+                  {profile?.full_name}
+                </h1>
+                <VerifiedBadge tier={profile?.subscription_tier} isVerified={profile?.is_verified} isScam={profile?.is_scam} isBanned={profile?.is_banned} size={16} />
+              </div>
+              <div className="flex items-center gap-1.5 sm:gap-2 text-xs text-[#5C5A70] flex-wrap">
+                <span>@{profile?.username}</span>
+                <span>·</span>
+                <span className="capitalize">{profile?.role}</span>
+                {profile?.country && (
+                  <>
+                    <span>·</span>
+                    <span className="flex items-center gap-1">
+                      <MapPin size={10} />{profile.country}
+                    </span>
+                  </>
+                )}
+              </div>
             </div>
           </div>
           <button
             onClick={() => editing ? void handleSave() : setEditing(true)}
             disabled={saving}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
+            className={`self-start sm:self-auto shrink-0 flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition shadow-sm ${
               editing
                 ? "bg-[#C9A84C] text-[#1A1A2E] hover:opacity-90"
-                : "border border-[#3A3A52] text-[#A8A6B8] hover:border-[#5C5A70]"
+                : "border border-[#3A3A52] text-[#A8A6B8] hover:border-[#5C5A70] bg-[#141424]"
             }`}
           >
             {saving ? (
@@ -828,51 +830,54 @@ export default function ProfilePage() {
 
         {/* Anonymous Mode (Investor only) */}
         {profile?.role === "investor" && (
-          <div className="bg-[#1A1A2E] border border-[#3A3A52] rounded-xl p-5 flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#C9A84C15] border border-[#C9A84C30] flex items-center justify-center">
+          <div className="bg-[#1A1A2E] border border-[#3A3A52] rounded-xl p-4 sm:p-5 flex flex-col gap-3">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-xl bg-[#C9A84C15] border border-[#C9A84C30] flex items-center justify-center shrink-0">
                   {profile.is_anonymous ? <EyeOff size={18} className="text-[#C9A84C]" /> : <Eye size={18} className="text-[#C9A84C]" />}
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-[#F5F3ED] text-sm font-medium">Anonymous Investor Mode</h3>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full border bg-[#C9A84C20] text-[#C9A84C] border-[#C9A84C30] font-medium">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="text-[#F5F3ED] text-sm font-medium whitespace-nowrap">Anonymous Investor Mode</h3>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full border bg-[#C9A84C20] text-[#C9A84C] border-[#C9A84C30] font-medium shrink-0">
                       Premium
                     </span>
                   </div>
-                  <p className="text-[#5C5A70] text-xs mt-0.5">
-                    Hide your name, photo, and company from founders while keeping your verified badge intact.
+                  <p className="text-[#8E8CA0] text-xs mt-0.5 leading-snug line-clamp-1 sm:line-clamp-none">
+                    Hide name, photo, and firm from founders while keeping your verified badge.
                   </p>
                 </div>
               </div>
 
-              {features.canBrowseAnonymously ? (
-                <button
-                  onClick={toggleAnonymousMode}
-                  className={`w-12 h-6 rounded-full transition relative p-1 ${
-                    profile.is_anonymous ? "bg-[#C9A84C]" : "bg-[#3A3A52]"
-                  }`}
-                >
-                  <div
-                    className={`w-4 h-4 rounded-full bg-[#1A1A2E] transition transform ${
-                      profile.is_anonymous ? "translate-x-6" : "translate-x-0"
+              <div className="shrink-0 flex items-center">
+                {features.canBrowseAnonymously ? (
+                  <button
+                    onClick={toggleAnonymousMode}
+                    aria-label="Toggle anonymous investor mode"
+                    className={`w-11 h-6 rounded-full transition relative p-0.5 ${
+                      profile.is_anonymous ? "bg-[#C9A84C]" : "bg-[#3A3A52]"
                     }`}
-                  />
-                </button>
-              ) : (
-                <button
-                  onClick={() => router.push("/dashboard/upgrade")}
-                  className="text-xs text-[#C9A84C] border border-[#C9A84C30] bg-[#C9A84C10] px-3 py-1.5 rounded-lg hover:bg-[#C9A84C20] transition font-medium"
-                >
-                  Upgrade
-                </button>
-              )}
+                  >
+                    <div
+                      className={`w-5 h-5 rounded-full bg-[#1A1A2E] transition transform ${
+                        profile.is_anonymous ? "translate-x-5" : "translate-x-0"
+                      }`}
+                    />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => router.push("/dashboard/upgrade")}
+                    className="text-xs text-[#C9A84C] border border-[#C9A84C30] bg-[#C9A84C10] px-3 py-1.5 rounded-lg hover:bg-[#C9A84C20] transition font-medium whitespace-nowrap"
+                  >
+                    Upgrade
+                  </button>
+                )}
+              </div>
             </div>
             {profile.is_anonymous && (
               <div className="bg-[#C9A84C10] border border-[#C9A84C25] text-[#C9A84C] text-xs rounded-lg px-3 py-2 flex items-center gap-2">
                 <ShieldCheck size={14} className="shrink-0" />
-                <span>Anonymous Mode is Active. Your identity is hidden in public browsing & feeds.</span>
+                <span className="truncate">Anonymous Mode is Active. Your identity is hidden in public browsing & feeds.</span>
               </div>
             )}
           </div>

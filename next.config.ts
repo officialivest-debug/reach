@@ -1,8 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  reactStrictMode: true,
+  compress: true,
   images: {
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: "https",
@@ -13,6 +16,18 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "api.dicebear.com",
         port: "",
         pathname: "/**",
       },
@@ -29,7 +44,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: "X-Frame-Options",
-            value: "DENY",
+            value: "SAMEORIGIN",
           },
           {
             key: "X-XSS-Protection",
@@ -41,7 +56,11 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Permissions-Policy",
-            value: "camera=(), microphone=*, geolocation=()",
+            value: "camera=(self), microphone=(self), geolocation=()",
+          },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
           },
         ],
       },

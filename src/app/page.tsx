@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import {
   Shield, Globe, TrendingUp, Users,
@@ -217,14 +218,31 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-[#0F0F1A] text-[#F5F3ED] overflow-x-hidden">
+      {/* Accessibility Skip Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-[#C9A84C] focus:text-[#0A0A0F] focus:font-bold focus:rounded-xl focus:shadow-2xl focus:outline-none focus:ring-2 focus:ring-white"
+      >
+        Skip to main content
+      </a>
 
       {/* Navbar */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-[#0F0F1A]/95 backdrop-blur-md border-b border-[#3A3A52]" : "bg-transparent"
-      }`}>
+      <nav
+        aria-label="Main Navigation"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled ? "bg-[#0F0F1A]/95 backdrop-blur-md border-b border-[#3A3A52]" : "bg-transparent"
+        }`}
+      >
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <img src="/logo-icon.png" alt="REACH" className="w-9 h-9 rounded-lg" />
+            <Image
+              src="/logo-icon.png"
+              alt="REACH Logo"
+              width={36}
+              height={36}
+              className="w-9 h-9 rounded-lg object-contain"
+              priority
+            />
             <div className="flex flex-col">
               <span className="text-xl font-bold tracking-wider text-[#F5F3ED]">
                 R<span className="text-[#C9A84C]">EACH</span>
@@ -240,7 +258,7 @@ export default function LandingPage() {
               <a
                 key={item}
                 href={`#${item.toLowerCase().replace(/ /g, "-")}`}
-                className="text-sm text-[#A8A6B8] hover:text-[#F5F3ED] transition"
+                className="text-sm text-[#A8A6B8] hover:text-[#F5F3ED] transition focus-visible:outline focus-visible:outline-[#C9A84C] rounded"
               >
                 {item}
               </a>
@@ -270,24 +288,35 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero — Animated 4-Image Fading Carousel Background */}
-      <section className="relative min-h-screen flex flex-col items-center justify-end px-4 sm:px-6 pb-16 sm:pb-20 text-center overflow-hidden">
-        
-        {/* Animated Background Slide Stack */}
-        <div className="absolute inset-0 overflow-hidden">
-          {HERO_IMAGES.map((img, i) => (
-            <img
-              key={img.url}
-              src={img.url}
-              alt={img.caption}
-              className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out transform ${
-                i === currentHeroIdx
-                  ? "opacity-100 scale-105"
-                  : "opacity-0 scale-100 pointer-events-none"
-              }`}
-            />
-          ))}
-        </div>
+      {/* Main Content Landmark */}
+      <main id="main-content">
+        {/* Hero — Animated 4-Image Fading Carousel Background */}
+        <section className="relative min-h-screen flex flex-col items-center justify-end px-4 sm:px-6 pb-16 sm:pb-20 text-center overflow-hidden">
+          
+          {/* Animated Background Slide Stack (Next.js AVIF/WebP Optimized) */}
+          <div className="absolute inset-0 overflow-hidden">
+            {HERO_IMAGES.map((img, i) => (
+              <div
+                key={img.url}
+                className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out transform ${
+                  i === currentHeroIdx
+                    ? "opacity-100 scale-105"
+                    : "opacity-0 scale-100 pointer-events-none"
+                }`}
+              >
+                <Image
+                  src={img.url}
+                  alt={img.caption}
+                  fill
+                  sizes="100vw"
+                  quality={75}
+                  priority={i === 0}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
 
         <div
           className="absolute inset-0"
@@ -723,6 +752,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+      </main>
 
       {/* Footer */}
       <footer className="border-t border-[#3A3A52] bg-[#0F0F1A]">
@@ -730,7 +760,13 @@ export default function LandingPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <img src="/logo-icon.png" alt="REACH" className="w-6 h-6 rounded" />
+                <Image
+                  src="/logo-icon.png"
+                  alt="REACH Logo"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 rounded object-contain"
+                />
                 <span className="text-lg font-bold tracking-wider text-[#F5F3ED]">
                   R<span className="text-[#C9A84C]">EACH</span>
                 </span>
@@ -745,11 +781,17 @@ export default function LandingPage() {
             <div>
               <div className="text-[#F5F3ED] text-xs font-medium uppercase tracking-wider mb-4">Platform</div>
               <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => router.push("/waitlist")}
+                  className="text-[#5C5A70] text-xs hover:text-[#A8A6B8] transition text-left cursor-pointer"
+                >
+                  Private Beta Waitlist
+                </button>
                 {["Explore projects", "Find investors", "AI matches", "Community"].map((item) => (
                   <button
                     key={item}
                     onClick={() => router.push("/auth/login")}
-                    className="text-[#5C5A70] text-xs hover:text-[#A8A6B8] transition text-left"
+                    className="text-[#5C5A70] text-xs hover:text-[#A8A6B8] transition text-left cursor-pointer"
                   >
                     {item}
                   </button>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REACH — Founder Master Platform Guide & Investor Playbook (2026)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+    :root {
+      --bg: #0A0A0F;
+      --card-bg: #12121E;
+      --card-sub: #0F0F1A;
+      --border: #2A2A3E;
+      --gold: #C9A84C;
+      --gold-light: #DFBE65;
+      --text-main: #F5F3ED;
+      --text-muted: #A8A6B8;
+      --text-sub: #8E8CA0;
+      --emerald: #10B981;
+      --blue: #3B82F6;
+      --purple: #A855F7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 36px;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+    }
+    .logo span { color: var(--gold); }
+
+    .print-btn {
+      background: var(--gold);
+      color: #0A0A0F;
+      border: none;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(201, 168, 76, 0.25);
+      transition: opacity 0.2s;
+    }
+    .print-btn:hover { opacity: 0.9; }
+
+    .pill {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(201, 168, 76, 0.12);
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 36px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 32px;
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 18px;
+      margin-bottom: 6px;
+    }
+
+    p, li {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    ul { padding-left: 20px; margin-top: 8px; }
+    li { margin-bottom: 6px; }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .sub-card {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+    .sub-card h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 16px;
+    }
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: var(--card-sub);
+      color: var(--text-sub);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+    }
+    td { color: var(--text-muted); }
+    td strong { color: var(--text-main); }
+    .gold-text { color: var(--gold) !important; font-weight: 700; }
+    .emerald-text { color: var(--emerald) !important; font-weight: 700; }
+
+    .tactic-box {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .tactic-tag {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+      display: block;
+    }
+    .script-box {
+      background: #07070C;
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #D8D6E8;
+    }
+
+    @media print {
+      body { background: #fff !important; color: #000 !important; padding: 0 !important; }
+      .header-bar button, .print-btn { display: none !important; }
+      .card { background: #fff !important; border: 1px solid #ccc !important; box-shadow: none !important; }
+      .sub-card, .tactic-box, .script-box { background: #f9f9f9 !important; border: 1px solid #ddd !important; color: #000 !important; }
+      th { background: #eee !important; color: #000 !important; }
+      h1, h2, h3, h4, strong { color: #000 !important; }
+      p, li, td { color: #333 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header-bar">
+      <div class="logo">R<span>EACH</span> <span style="font-size: 12px; font-weight: 600; color: var(--text-sub);">| Founder Confidential Master Guide</span></div>
+      <button class="print-btn" onclick="window.print()">📥 Print / Save as PDF</button>
+    </div>
+
+    <span class="pill">Confidential Founder Manual</span>
+    <h1>REACH Platform Guide & Investor Playbook</h1>
+    <p class="subtitle">Complete technical blueprint of all features, Free/Pro/Premium subscription matrix, and zero-ad-spend strategies to bring active angel investors onto REACH.</p>
+
+    <!-- 1. ROLES & ARCHITECTURE -->
+    <div class="card">
+      <h2>1. User Roles & Platform Ecosystem</h2>
+      <div class="grid-3">
+        <div class="sub-card">
+          <h4 style="color: var(--emerald);">💼 Investors & Angels</h4>
+          <p>Discover verified tech deals, review watermarked pitch decks, chat anonymously, make 1-on-1 audio/video calls, and execute SAFE term sheets.</p>
+        </div>
+        <div class="sub-card">
+          <h4 style="color: var(--blue);">🛠️ Founders & Builders</h4>
+          <p>Raise capital, host Deal Rooms, track live investor deck inspections, showcase traction metrics, and hire core engineering talent.</p>
+        </div>
+        <div class="sub-card">
+          <h4 style="color: var(--purple);">⚡ Tech Talent & Operators</h4>
+          <p>Apply to venture-backed startups, showcase verified portfolio skills, and join founding teams with direct chat access.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. CORE FEATURES -->
+    <div class="card">
+      <h2>2. Core Features & How They Operate</h2>
+      
+      <h3>📞 Native 1-on-1 Voice & Video Calling (WhatsApp Style)</h3>
+      <p>100% native peer-to-peer WebRTC video and audio inside direct chat. When User A clicks Call, User B’s screen immediately rings with an answer/decline modal. Video includes floating picture-in-picture local camera tiles, mute controls, and synchronized two-way teardown.</p>
+
+      <h3>📜 Verified Deal Room & 1-Click YC SAFE Note Generator</h3>
+      <p>Structured pipeline tracking across 4 venture stages: <strong>NDA</strong> &rarr; <strong>Term Sheet</strong> &rarr; <strong>Agreement</strong> &rarr; <strong>Closed</strong>. Generates industry-standard Y-Combinator Post-Money SAFE agreements with Valuation Cap, Discount Rate, Pro-Rata terms, and 1-click printable PDF formatting.</p>
+
+      <h3>👁️ Confidential Pitch Deck Watermark Viewer & Real-Time Alerts</h3>
+      <p>Dynamically applies a personalized watermark (investor name, email, date) across every slide. Whenever an investor inspects a deck, an instant real-time notification alerts the founder: <em>"Investor [Name] just reviewed your confidential Pitch Deck in the Deal Room."</em></p>
+
+      <h3>🛡️ Verified KYC & Trust Scoring</h3>
+      <p>Verifies government ID cards, passports, and corporate registrations to award public verified badges and compute trust scores (0–100), eliminating scam activity.</p>
+
+      <h3>🚀 Viral Pre-Launch Waitlist System (/waitlist)</h3>
+      <p>Collects role-specific registrations (ticket size for investors, target raise for founders) with live queue position counters (#142 in line) and viral referral links (invite 3 peers to jump 10 spots).</p>
+    </div>
+
+    <!-- 3. TIERS MATRIX -->
+    <div class="card">
+      <h2>3. Free vs Pro vs Premium Subscription Matrix</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Platform Feature</th>
+            <th style="text-align: center;">Free ($0)</th>
+            <th style="text-align: center; color: var(--gold);">Pro ($49/mo)</th>
+            <th style="text-align: center; color: var(--emerald);">Premium ($149/mo)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Startup Deal Discovery</strong></td>
+            <td style="text-align: center;">Public Startups</td>
+            <td style="text-align: center;" class="gold-text">All Vetted Deals</td>
+            <td style="text-align: center;" class="emerald-text">VIP Pre-Seed Deals</td>
+          </tr>
+          <tr>
+            <td><strong>Deal Room Pipeline Access</strong></td>
+            <td style="text-align: center;">Preview Only</td>
+            <td style="text-align: center;" class="emerald-text">Full Pipeline</td>
+            <td style="text-align: center;" class="emerald-text">Unlimited Deal Rooms</td>
+          </tr>
+          <tr>
+            <td><strong>YC SAFE Note & PDF Export</strong></td>
+            <td style="text-align: center;">Standard Terms</td>
+            <td style="text-align: center;" class="emerald-text">1-Click PDF Export</td>
+            <td style="text-align: center;" class="gold-text">Custom Legal Terms</td>
+          </tr>
+          <tr>
+            <td><strong>Direct Messaging & Calls</strong></td>
+            <td style="text-align: center;">3 chats / month</td>
+            <td style="text-align: center;" class="emerald-text">Unlimited Calls</td>
+            <td style="text-align: center;" class="gold-text">Priority Calling & Intros</td>
+          </tr>
+          <tr>
+            <td><strong>Pitch Deck Watermarking</strong></td>
+            <td style="text-align: center;">Standard</td>
+            <td style="text-align: center;" class="emerald-text">Encrypted Watermarks</td>
+            <td style="text-align: center;" class="emerald-text">Instant View Alerts</td>
+          </tr>
+          <tr>
+            <td><strong>Investor Stealth Mode</strong></td>
+            <td style="text-align: center;">Public Only</td>
+            <td style="text-align: center;" class="emerald-text">Stealth Mode Included</td>
+            <td style="text-align: center;" class="gold-text">Full Ghost Syndicate</td>
+          </tr>
+          <tr>
+            <td><strong>Weekly Curated Deal Digest</strong></td>
+            <td style="text-align: center;">Monthly</td>
+            <td style="text-align: center;" class="emerald-text">Weekly Digest</td>
+            <td style="text-align: center;" class="gold-text">48h First-Look Access</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 4. INVESTOR ACQUISITION PLAYBOOK -->
+    <div class="card">
+      <h2>4. Actionable Investor Acquisition Playbook (5 Zero-Spend Tactics)</h2>
+
+      <div class="tactic-box">
+        <span class="tactic-tag">Tactic 1 · Highest Response (~28%)</span>
+        <h4>The "Curated Deal Flow" Cold Message (LinkedIn / X)</h4>
+        <p>Never pitch the platform itself. Pitch 1 specific exciting startup deal raising capital in the investor's niche.</p>
+        <div class="script-box">
+          "Hi [Name], saw your angel investments in Fintech. We just verified an emerging payments startup on REACH raising a $250k seed round with $18k MRR and 40% MoM growth. Here is a private VIP pass to review their watermarked deck and metrics in the Deal Room: [Your-Waitlist-Link]"
+        </div>
+      </div>
+
+      <div class="tactic-box">
+        <span class="tactic-tag">Tactic 2 · High Check Sizes</span>
+        <h4>Diaspora Angel Networks (US, UK, Canada, UAE)</h4>
+        <p>Target diaspora tech professionals (Google, Microsoft, Amazon, Stripe) who want to invest $5k–$25k in emerging startups back home. REACH provides them with verified KYC, legal SAFE contracts, and direct video calls.</p>
+      </div>
+
+      <div class="tactic-box">
+        <span class="tactic-tag">Tactic 3 · Viral Founder Referrals</span>
+        <h4>Turn Onboarded Startup Founders into Investor Inviters</h4>
+        <p>Instruct your 10 onboarded founders to send their REACH Deal Room link to their existing angels so investors sign their SAFE notes in 1-click. 10 founders bring in 50+ investors with zero work from you.</p>
+      </div>
+
+      <div class="tactic-box">
+        <span class="tactic-tag">Tactic 4 · Strategic Partnerships</span>
+        <h4>Partner with Accelerators & University Incubators</h4>
+        <p>Offer pre-seed accelerators a free digital Deal Room for their demo day cohorts, bringing all their founders and attending angel investors directly onto REACH.</p>
+      </div>
+
+      <div class="tactic-box">
+        <span class="tactic-tag">Tactic 5 · Fast Activation</span>
+        <h4>Host a 45-Minute "Virtual Pitch Showcase"</h4>
+        <p>Invite 15 angel investors to a 45-minute live demo session on REACH native video calling. 3 startups pitch for 5 mins each. Immediately after, angels open the Deal Room and initiate term sheets.</p>
+      </div>
+    </div>
+
+    <!-- 5. LAUNCH CHECKLIST -->
+    <div class="card">
+      <h2>5. Founder Launch Checklist</h2>
+      <ul>
+        <li><strong>Step 1</strong>: Complete 1 test run with a Founder and an Investor account.</li>
+        <li><strong>Step 2</strong>: Share your waitlist link (<code>/waitlist</code>) on Twitter/X, LinkedIn, and WhatsApp status.</li>
+        <li><strong>Step 3</strong>: Approve the first 10 high-quality startups on the platform.</li>
+        <li><strong>Step 4</strong>: Send the Tactic 1 script to 20 angels on LinkedIn to review the 10 curated deals.</li>
+        <li><strong>Step 5</strong>: Dispatch the weekly curated deal digest from Admin to all registered investors.</li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+</html>

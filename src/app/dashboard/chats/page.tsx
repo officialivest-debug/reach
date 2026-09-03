@@ -214,6 +214,7 @@ function ChatsInner() {
 
   // Clean Conversation Switching Helper
   const selectConversation = (targetId: string) => {
+    setMobileView("chat");
     if (activeConversationId === targetId) return;
 
     // Save draft for previous conversation
@@ -226,7 +227,6 @@ function ChatsInner() {
 
     // Switch active conversation and view
     setActiveConversationId(targetId);
-    setMobileView("chat");
 
     // Load draft for target conversation or start completely fresh
     setInput(drafts[targetId] || "");
@@ -838,54 +838,57 @@ function ChatsInner() {
   // ─── Render ───────────────────────────────────────────────────────────────
 
   return (
-    <div className="h-screen bg-[#0A0A0F] flex flex-col overflow-hidden">
+    <div className="h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full bg-[#0A0A0F] flex flex-col overflow-hidden">
 
       {/* TOP BAR */}
-      <header className={`${mobileView === "chat" ? "hidden md:flex" : "flex"} bg-[#0A0A0F] border-b border-[#1A1A2E] px-4 py-3 items-center gap-3 shrink-0 z-20`}>
-        <button 
-          onClick={() => router.push(
-            currentUser?.role === "talent" 
-              ? "/dashboard/talent" 
-              : currentUser?.role === "builder" 
-              ? "/dashboard/builder" 
-              : "/dashboard/investor"
-          )}
-          className="p-1.5 -ml-1 rounded-lg hover:bg-[#1A1A2E] text-[#6B6A7A] hover:text-[#F0EEE8] transition"
-          title="Back to dashboard"
-        >
-          <ArrowLeft size={18} />
-        </button>
-        <img
-          src="/logo-icon.png"
-          alt="REACH"
-          className="w-8 h-8 rounded-lg shrink-0 object-contain shadow-sm shadow-[#C9A84C]/20 cursor-pointer"
-          onClick={() => router.push(
-            currentUser?.role === "talent" 
-              ? "/dashboard/talent" 
-              : currentUser?.role === "builder" 
-              ? "/dashboard/builder" 
-              : "/dashboard/investor"
-          )}
-        />
-        <div className="flex-1 min-w-0">
-          <h1 className="text-sm font-bold text-[#F0EEE8] leading-none flex items-center gap-1.5">
-            <span>R<span className="text-[#C9A84C]">EACH</span></span>
-            <span className="text-[#3A3A52]">·</span>
-            <span className="text-xs font-medium text-[#A8A6B8]">
-              {currentUser?.role === "talent" ? "Messages & Hiring" : "Deal Room"}
-            </span>
-          </h1>
-          <p className="text-[#6B6A7A] text-[11px] mt-0.5 truncate">
-            {currentUser?.role === "talent" ? "Recruiter Channels · Direct Hiring" : "Secure · Monitored · Compliant Deal Room"}
-          </p>
+      <header className={`${mobileView === "chat" ? "hidden md:flex" : "flex"} bg-[#0A0A0F] border-b border-[#1A1A2E] px-4 py-3 items-center justify-between gap-3 shrink-0 z-20`}>
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+          <button 
+            onClick={() => router.push(
+              currentUser?.role === "talent" 
+                ? "/dashboard/talent" 
+                : currentUser?.role === "builder" 
+                ? "/dashboard/builder" 
+                : "/dashboard/investor"
+            )}
+            className="p-1.5 -ml-1 rounded-lg hover:bg-[#1A1A2E] text-[#8E8CA0] hover:text-[#F0EEE8] transition shrink-0"
+            title="Back to dashboard"
+          >
+            <ArrowLeft size={18} />
+          </button>
+          <img
+            src="/logo-icon.png"
+            alt="REACH"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg shrink-0 object-contain shadow-sm shadow-[#C9A84C]/20 cursor-pointer"
+            onClick={() => router.push(
+              currentUser?.role === "talent" 
+                ? "/dashboard/talent" 
+                : currentUser?.role === "builder" 
+                ? "/dashboard/builder" 
+                : "/dashboard/investor"
+            )}
+          />
+          <div className="min-w-0 flex-1">
+            <h1 className="text-sm sm:text-base font-bold text-[#F0EEE8] leading-tight truncate flex items-center gap-1.5">
+              <span>R<span className="text-[#C9A84C]">EACH</span></span>
+              <span className="text-[#3A3A52] text-xs hidden sm:inline">·</span>
+              <span className="text-xs font-medium text-[#A8A6B8] hidden sm:inline">
+                {currentUser?.role === "talent" ? "Messages & Hiring" : "Deal Room"}
+              </span>
+            </h1>
+            <p className="text-[#6B6A7A] text-[11px] hidden sm:block truncate mt-0.5">
+              {currentUser?.role === "talent" ? "Recruiter Channels · Direct Hiring" : "Secure · Monitored · Compliant Deal Room"}
+            </p>
+          </div>
         </div>
+
         {/* Anonymous Mode Switch for Investors */}
         {currentUser?.role === "investor" && (
           <button
             type="button"
             onClick={toggleAnonymous}
             disabled={togglingAnon}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition cursor-pointer shrink-0 ${
+            className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-medium border transition cursor-pointer shrink-0 ${
               currentUser.is_anonymous
                 ? "bg-[#C9A84C]/20 border-[#C9A84C]/60 text-[#C9A84C] shadow-[0_0_12px_rgba(201,168,76,0.25)] hover:bg-[#C9A84C]/25"
                 : "bg-[#1A1A2E] border-[#3A3A52] text-[#8E8CA0] hover:text-[#F5F3ED] hover:border-[#5C5A70]"
@@ -899,15 +902,12 @@ function ChatsInner() {
             }
           >
             {currentUser.is_anonymous ? <EyeOff size={13} className="text-[#C9A84C]" /> : <Eye size={13} />}
-            <span className="hidden sm:inline">
-              {currentUser.is_anonymous ? "Anonymous: ON" : "Anonymous: OFF"}
-            </span>
-            <span className="sm:hidden">
-              {currentUser.is_anonymous ? "Anon ON" : "Anon OFF"}
+            <span className="whitespace-nowrap text-xs font-semibold">
+              {currentUser.is_anonymous ? "Anonymous ON" : "Anonymous OFF"}
             </span>
             {currentUser.subscription_tier !== "premium" && !features.canBrowseAnonymously && (
-              <span className="text-[9px] bg-[#C9A84C] text-[#0A0A0F] font-extrabold px-1.5 py-0.2 rounded uppercase">
-                Premium
+              <span className="text-[8px] tracking-wider bg-[#C9A84C] text-[#0A0A0F] font-black px-1.5 py-0.2 rounded uppercase">
+                PRO
               </span>
             )}
           </button>
@@ -1080,7 +1080,7 @@ function ChatsInner() {
         </div>
 
         {/* CHAT WINDOW */}
-        <div className={`${mobileView === "list" ? "hidden" : "flex"} md:flex flex-1 flex-col overflow-hidden`}>
+        <div className={`${mobileView === "list" ? "hidden" : "flex"} md:flex flex-1 flex-col overflow-hidden w-full h-full`}>
 
           {activeConvo ? (
             <>
@@ -1164,7 +1164,29 @@ function ChatsInner() {
 
                   {/* Call and info buttons (Hidden for Concierge Bot) */}
                   {!isConciergeConvo && (
-                    <div className="flex items-center gap-1 shrink-0">
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      {currentUser?.role === "investor" && (
+                        <button
+                          type="button"
+                          onClick={toggleAnonymous}
+                          disabled={togglingAnon}
+                          className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium border transition cursor-pointer shrink-0 ${
+                            currentUser.is_anonymous
+                              ? "bg-[#C9A84C]/20 border-[#C9A84C]/50 text-[#C9A84C]"
+                              : "border-[#2A2A3E] bg-[#141424] hover:bg-[#1A1A2E] text-[#8E8CA0] hover:text-[#F5F3ED]"
+                          }`}
+                          title={
+                            currentUser.is_anonymous
+                              ? "Anonymous Mode is ON. Click to toggle OFF."
+                              : "Anonymous Mode is OFF. Click to toggle ON."
+                          }
+                        >
+                          {currentUser.is_anonymous ? <EyeOff size={13} className="text-[#C9A84C]" /> : <Eye size={13} />}
+                          <span className="hidden sm:inline text-[11px]">
+                            {currentUser.is_anonymous ? "Anonymous ON" : "Anonymous OFF"}
+                          </span>
+                        </button>
+                      )}
                       <button
                         onClick={() => handleStartCall(false)}
                         className="w-8 h-8 flex items-center justify-center border border-[#2A2A3E] bg-[#141424] hover:bg-[#1A1A2E] text-[#A8A6B8] hover:text-[#C9A84C] rounded-lg transition"

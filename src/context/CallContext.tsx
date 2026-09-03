@@ -251,9 +251,33 @@ export function CallProvider({ children }: { children: React.ReactNode }) {
 
         stream.getTracks().forEach((track) => pc.addTrack(track, stream));
 
+        // Explicit transceivers to force bidirectional audio/video negotiation
+        try {
+          pc.addTransceiver("audio", { direction: "sendrecv" });
+          if (isVideo) {
+            pc.addTransceiver("video", { direction: "sendrecv" });
+          }
+        } catch (transceiverErr) {
+          console.warn("Transceiver notice:", transceiverErr);
+        }
+
         pc.ontrack = (event) => {
           if (event.streams && event.streams[0]) {
             setRemoteStream(event.streams[0]);
+          } else if (event.track) {
+            setRemoteStream((prev) => {
+              const next = prev ? new MediaStream(prev.getTracks()) : new MediaStream();
+              if (!next.getTracks().some((t) => t.id === event.track.id)) {
+                next.addTrack(event.track);
+              }
+              return next;
+            });
+          }
+        };
+
+        pc.oniceconnectionstatechange = () => {
+          if (pc.iceConnectionState === "connected" || pc.iceConnectionState === "completed") {
+            setCallStatus("connected");
           }
         };
 
@@ -264,12 +288,15 @@ export function CallProvider({ children }: { children: React.ReactNode }) {
             room.send({
               type: "broadcast",
               event: "ice_candidate",
-              payload: { candidate: event.candidate, senderId: currentUser.id },
+              payload: { candidate: event.candidate.toJSON(), senderId: currentUser.id },
             });
           }
         };
 
-        const offer = await pc.createOffer();
+        const offer = await pc.createOffer({
+          offerToReceiveAudio: true,
+          offerToReceiveVideo: isVideo,
+        });
         await pc.setLocalDescription(offer);
 
         setCallInfo({
@@ -326,9 +353,33 @@ export function CallProvider({ children }: { children: React.ReactNode }) {
 
       stream.getTracks().forEach((track) => pc.addTrack(track, stream));
 
+      // Explicit transceivers to force bidirectional audio/video negotiation
+      try {
+        pc.addTransceiver("audio", { direction: "sendrecv" });
+        if (callInfo.isVideo) {
+          pc.addTransceiver("video", { direction: "sendrecv" });
+        }
+      } catch (transceiverErr) {
+        console.warn("Transceiver notice:", transceiverErr);
+      }
+
       pc.ontrack = (event) => {
         if (event.streams && event.streams[0]) {
           setRemoteStream(event.streams[0]);
+        } else if (event.track) {
+          setRemoteStream((prev) => {
+            const next = prev ? new MediaStream(prev.getTracks()) : new MediaStream();
+            if (!next.getTracks().some((t) => t.id === event.track.id)) {
+              next.addTrack(event.track);
+            }
+            return next;
+          });
+        }
+      };
+
+      pc.oniceconnectionstatechange = () => {
+        if (pc.iceConnectionState === "connected" || pc.iceConnectionState === "completed") {
+          setCallStatus("connected");
         }
       };
 
@@ -339,7 +390,7 @@ export function CallProvider({ children }: { children: React.ReactNode }) {
           room.send({
             type: "broadcast",
             event: "ice_candidate",
-            payload: { candidate: event.candidate, senderId: currentUser.id },
+            payload: { candidate: event.candidate.toJSON(), senderId: currentUser.id },
           });
         }
       };

@@ -32,7 +32,7 @@ export default function WalletConnect({ userId, initialAddress, onConnected }: P
   const { data: balance } = useBalance({ address });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [manualMode, setManualMode] = useState(false);
+  const [manualMode, setManualMode] = useState(true);
   const [manualAddr, setManualAddr] = useState(initialAddress || "");
   const [manualError, setManualError] = useState<string | null>(null);
 
@@ -198,7 +198,7 @@ export default function WalletConnect({ userId, initialAddress, onConnected }: P
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <Wallet size={16} className="text-[#C9A84C]" />
-          <span className="text-[#F5F3ED] text-sm font-semibold">Connect Web3 Wallet</span>
+          <span className="text-[#F5F3ED] text-sm font-semibold">Connect Wallet</span>
         </div>
         <button
           onClick={() => {
@@ -207,13 +207,14 @@ export default function WalletConnect({ userId, initialAddress, onConnected }: P
           }}
           className="text-xs text-[#C9A84C] hover:underline flex items-center gap-1 font-medium"
         >
-          {manualMode ? "Use Web3 Connect" : "Manual entry"}
+          {manualMode ? "Scan QR / Extension" : "Manual entry"}
         </button>
       </div>
 
-      <p className="text-[#8E8CA0] text-xs mb-3.5 leading-relaxed">
-        Connect your Web3 wallet or provide an address to verify on-chain holdings and unlock Web3 deal room features. Read-only — never asks for signing or transfers.
-      </p>
+      <div className="text-[#8E8CA0] text-xs mb-3.5 leading-relaxed">
+        <p>Connect your wallet or provide an address to verify on-chain holding and unlock deal room features.</p>
+        <p className="text-[#5C5A70] mt-1 text-[11px]">Read-only: never asks for signing or transfers.</p>
+      </div>
 
       {connectError && (
         <div className="mb-3 p-3 rounded-lg bg-red-950/40 border border-red-800/60 text-red-300 text-xs flex items-start gap-2">
@@ -243,18 +244,21 @@ export default function WalletConnect({ userId, initialAddress, onConnected }: P
 
           <div className="flex items-center gap-2 mt-1">
             <button
-              type="button"
-              onClick={() => setManualMode(false)}
-              className="flex-1 py-2 rounded-lg border border-[#3A3A52] text-[#A8A6B8] hover:text-[#F5F3ED] text-xs transition"
-            >
-              Cancel
-            </button>
-            <button
               type="submit"
               disabled={saving}
-              className="flex-1 py-2 rounded-lg bg-[#C9A84C] text-[#1A1A2E] font-bold text-xs hover:opacity-90 transition disabled:opacity-50 flex items-center justify-center gap-1.5"
+              className="flex-1 py-2.5 rounded-lg bg-[#C9A84C] text-[#1A1A2E] font-bold text-xs hover:opacity-90 transition disabled:opacity-50 flex items-center justify-center gap-1.5 shadow-md"
             >
-              {saving ? <Loader2 size={12} className="animate-spin" /> : "Save Address"}
+              {saving ? <Loader2 size={12} className="animate-spin" /> : "Save & Verify Address"}
+            </button>
+          </div>
+
+          <div className="mt-2 pt-2 border-t border-[#3A3A52]/40 text-center">
+            <button
+              type="button"
+              onClick={() => setManualMode(false)}
+              className="text-[11px] text-[#A8A6B8] hover:text-[#C9A84C] transition inline-flex items-center gap-1.5"
+            >
+              <QrCode size={12} /> Or connect via MetaMask / WalletConnect QR
             </button>
           </div>
         </form>
@@ -286,6 +290,13 @@ export default function WalletConnect({ userId, initialAddress, onConnected }: P
               </button>
             );
           })}
+          <button
+            type="button"
+            onClick={() => setManualMode(true)}
+            className="mt-1 py-2 text-center text-xs text-[#C9A84C] hover:underline"
+          >
+            ← Back to manual address entry
+          </button>
         </div>
       )}
     </div>

@@ -60,3 +60,13 @@ h1, h2, h3, .font-heading {
     scrollbar-width: none !important;
   }
 }
+
+/* Accessibility: WCAG AA Keyboard Focus Indicators */
+:focus-visible {
+  outline: 2px solid var(--reach-gold);
+  outline-offset: 2px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
